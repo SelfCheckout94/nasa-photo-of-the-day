@@ -1,25 +1,28 @@
 import "./App.css";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
+import Content from "./components/Content";
 import Header from "./components/Header";
-import Media from "./components/Media";
 import axios from "axios";
 
 function App() {
-  // useEffect(() => {
-  //   axios
-  //     .get(`https://api.nasa.gov/#apod`)
-  //     .then((res) => console.log(res))
-  //     .catch((err) => {
-  //       debugger;
-  //     });
-  // }, []);
+  const [data, setData] = useState("");
+  useEffect(() => {
+    axios
+      .get(
+        `https://api.nasa.gov/planetary/apod?api_key=zdoVLMb0oOoFn7DNizUANf4wlPqtHuMEzkCVhChh`
+      )
+      .then((res) => {
+        setData(res.data);
+      })
+      .catch((err) => console.error(err));
+  }, []);
 
   return (
     <>
-      <Header />
-      <Media />
+      <Header data={data} />
+      <Content data={data} />
     </>
   );
 }
