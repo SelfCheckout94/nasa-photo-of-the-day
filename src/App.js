@@ -9,17 +9,16 @@ import axios from "axios";
 
 function App() {
   const [data, setData] = useState("");
-  const currentDate = "2020-07-14";
   useEffect(() => {
     axios
       .get(
-        `https://api.nasa.gov/planetary/apod?date=${currentDate}&api_key=zdoVLMb0oOoFn7DNizUANf4wlPqtHuMEzkCVhChh`
+        `https://api.nasa.gov/planetary/apod?api_key=zdoVLMb0oOoFn7DNizUANf4wlPqtHuMEzkCVhChh`
       )
       .then((res) => {
         setData(res.data);
       })
       .catch((err) => console.error(err));
-  }, []);
+  }, [data.date]);
 
   return (
     <>
