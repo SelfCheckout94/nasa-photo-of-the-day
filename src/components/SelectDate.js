@@ -1,28 +1,24 @@
 import React, { useEffect, useState } from "react";
 
-import SearchBar from "./card-components/SearchBar";
+import axios from "axios";
 
 export default function SelectDate(props) {
   const { data } = props;
+  const [date, setDate] = useState("");
   const left = "<";
   const right = ">";
-
-  // useEffect(() => {
-  //   axios
-  //     .get(
-  //       `https://api.nasa.gov/planetary/apod?date=${currentDate}&api_key=zdoVLMb0oOoFn7DNizUANf4wlPqtHuMEzkCVhChh`
-  //     )
-  //     .then((res) => {
-  //       setData(res.data);
-  //     })
-  //     .catch((err) => console.error(err));
-  // }, []);
 
   return (
     <>
       <h4>Article by date</h4>
       <div>
-        <SearchBar />
+        <input id="dateInput" type="text" placeholder="search your date :)" />
+        <button
+          type="submit"
+          onClick={(e) => setDate(document.getElementById("dateInput").value)}
+        >
+          Submit
+        </button>
       </div>
       <div>
         <input type="date" value={data.date} max={data.date} min="1995-06-16" />
