@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function SelectDate(props) {
-  const { data } = props;
+  const [data, setData] = useState("");
   const [date, setDate] = useState("");
   const left = "<";
   const right = ">";
@@ -15,8 +15,9 @@ export default function SelectDate(props) {
         <input id="dateInput" type="text" placeholder="search your date :)" />
         <button
           type="submit"
-          onClick={(e) => setDate(document.getElementById("dateInput").value)}
+          onClick={() => setDate(document.getElementById("dateInput").value)}
         >
+          {console.log(date)}
           Submit
         </button>
       </div>
@@ -24,7 +25,17 @@ export default function SelectDate(props) {
         <input type="date" value={data.date} max={data.date} min="1995-06-16" />
       </div>
       <div>
-        <p>{data.title}</p>
+        {useEffect(() => {
+          axios
+            .get(
+              `https://api.nasa.gov/planetary/apod?date=${date}&api_key=zdoVLMb0oOoFn7DNizUANf4wlPqtHuMEzkCVhChh`
+            )
+            .then((res) => {
+              setData(res.data);
+            })
+            .catch((err) => console.error(err));
+        }, [date])}
+        ;<p>{data.title}</p>
         <p>{data.date}</p>
         <p>{data.explanation}</p>
       </div>
