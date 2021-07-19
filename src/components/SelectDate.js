@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function SelectDate(props) {
-  const [data, setData] = useState("");
+  const { data, setSelectedDate } = props;
+  const [apiData, setApiData] = useState("");
   const [date, setDate] = useState("");
   const left = "<";
   const right = ">";
@@ -12,13 +13,12 @@ export default function SelectDate(props) {
     <>
       <h4>Article by date</h4>
       <div>
-        <input id="dateInput" type="text" placeholder="search your date :)" />
+        <input id="dateInput" type="text" placeholder="yyyy-mm-dd" />
         <button
           type="submit"
           onClick={() => setDate(document.getElementById("dateInput").value)}
         >
-          {console.log(date)}
-          Submit
+          Search
         </button>
       </div>
       <div>
@@ -31,15 +31,24 @@ export default function SelectDate(props) {
               `https://api.nasa.gov/planetary/apod?date=${date}&api_key=zdoVLMb0oOoFn7DNizUANf4wlPqtHuMEzkCVhChh`
             )
             .then((res) => {
-              setData(res.data);
+              setApiData(res.data);
             })
             .catch((err) => console.error(err));
         }, [date])}
-        ;<p>{data.title}</p>
-        <p>{data.date}</p>
-        <p>{data.explanation}</p>
+        <p>{apiData.title}</p>
+        <p>{apiData.date}</p>
+        <p>{apiData.explanation}</p>
       </div>
-      <button>Go To Date</button>
+      <button
+        id="goToButton"
+        onClick={() => {
+          props.setSelectedDate(date);
+          console.log(props.selectedDate);
+        }}
+      >
+        Go To Date
+      </button>
+      {/* {console.log(document.getElementById("goToButton").value)} */}
       <div>
         <button>{left}</button>
         <button>Random</button>
